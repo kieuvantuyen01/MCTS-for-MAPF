@@ -1,8 +1,9 @@
-
 import main.Controller;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.*;
 
 public class Test {
@@ -11,11 +12,10 @@ public class Test {
     private static final int MAX_NUM = 2;
     private static final int TIME = 3;
     private static final int SOLVE = 4;
+    public static File outFile = new File("./output/out3.txt");
     static Controller controller;
     static String inputFolderPath1 = "./input";
     public static File inFolder = new File(inputFolderPath1);
-    public static File outFile = new File("./output/out2.txt");
-
     static List<String> res;
 
 
@@ -30,7 +30,7 @@ public class Test {
                     fileName = fileEntry.getName();
                     if ((fileName.substring(fileName.lastIndexOf('.') + 1).toLowerCase()).equals("in")) {
                         String time = "";
-//                    System.out.println(fileName);
+                        System.out.println(fileName);
                         controller = new Controller(fileEntry);
                         /*long t1 = System.currentTimeMillis();*/
                         ExecutorService executor = Executors.newFixedThreadPool(4);
@@ -51,7 +51,7 @@ public class Test {
                         executor.shutdown();            //        reject all further submissions
 
                         try {
-                            future.get(3600, TimeUnit.SECONDS);  //     wait Time (seconds) to finish
+                            future.get(1000, TimeUnit.SECONDS);  //     wait Time (seconds) to finish
                         } catch (InterruptedException e) {    //     possible error cases
                             System.out.println("job was interrupted");
                         } catch (ExecutionException e) {
@@ -59,8 +59,8 @@ public class Test {
                         } catch (java.util.concurrent.TimeoutException e) {
                             future.cancel(true);              //     interrupt the job
                             System.out.println("timeout");
-                            controller.solve = "CANN'T SOLVE";
-                            System.out.println("CANN'T SOLVE");
+                            controller.solve = "UNKNOWN";
+                            System.out.println("UNKNOWN");
                             time = "time out";
                         }
                         // wait all unfinished tasks for sec

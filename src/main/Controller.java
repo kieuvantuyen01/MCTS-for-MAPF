@@ -6,15 +6,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.concurrent.TimeoutException;
 
 public class Controller {
     public static Game game;
+    public static String solve = "CAN'T SOLVE";
     static Simulator simulator;
     static MonteCarloTreeSearch mcts;
     static String time = "";
-    public static String solve = "CANN'T SOLVE";
     private static String result;
 
     public Controller(File fileEntry) throws FileNotFoundException {
@@ -23,6 +22,7 @@ public class Controller {
         this.simulator = new Simulator();
         this.mcts = new MonteCarloTreeSearch(game, simulator);
     }
+
     public static List<String> inFoList() {
         List<String> res = new ArrayList<>();
         res.add(String.valueOf(game.getState().rows));
@@ -32,6 +32,18 @@ public class Controller {
         res.add(solve);
         return res;
     }
+
+    public static void outputToTxt(String result, File outFile) {
+        try {
+            FileWriter writer = new FileWriter(outFile, true);
+            writer.write(result + "\n");
+//            System.out.println("writing" + result);
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void run() throws IOException, TimeoutException {
 //        State khởi tạo bằng ma trận đầu vào
         long startTimes = System.currentTimeMillis();
@@ -43,23 +55,17 @@ public class Controller {
             game.updateState(nextState);
         }
         time = String.valueOf(System.currentTimeMillis() - startTimes);
-        if(game.winGame())
+        if (game.winGame()) {
             solve = "SOLVE";
-        result = "FinalState: \n" + game.getState() + " Time: " + (System.currentTimeMillis() - startTimes)
-                + " Ratio: " + game.getState().getValue() + " Depth: " + game.getState().depth;
-        System.out.println("FinalState: \n" + game.getState());
-        System.out.println(" Time: " + (System.currentTimeMillis() - startTimes)
-                + " Ratio: " + game.getState().getValue() + " Depth: " + game.getState().depth);
-        System.out.println(game.winGame());
-    }
-    public static void outputToTxt(String result, File outFile) {
-        try {
-            FileWriter writer = new FileWriter(outFile, true);
-            writer.write(result + "\n");
-//            System.out.println("writing" + result);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            result = "FinalState: \n" + game.getState() + " Time: " + (System.currentTimeMillis() - startTimes)
+                    + " Ratio: " + game.getState().getValue() + " Depth: " + game.getState().depth;
+            System.out.println("FinalState: \n" + game.getState());
+            System.out.println(" Time: " + (System.currentTimeMillis() - startTimes)
+                    + " Ratio: " + game.getState().getValue() + " Depth: " + game.getState().depth);
+            System.out.println(game.winGame());
+        } else if (!game.winGame()) {
+            solve = "CAN'T SOLVE";
+            System.out.println(game.winGame());
         }
     }
 }
