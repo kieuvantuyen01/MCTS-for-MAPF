@@ -12,7 +12,7 @@ public class Test {
     private static final int MAX_NUM = 2;
     private static final int TIME = 3;
     private static final int SOLVE = 4;
-    public static File outFile = new File("./output/out3.txt");
+    public static File outFile = new File("./output/out231404.txt");
     static Controller controller;
     static String inputFolderPath1 = "./input";
     public static File inFolder = new File(inputFolderPath1);
@@ -51,7 +51,7 @@ public class Test {
                         executor.shutdown();            //        reject all further submissions
 
                         try {
-                            future.get(1000, TimeUnit.SECONDS);  //     wait Time (seconds) to finish
+                            future.get(1800, TimeUnit.SECONDS);  //     wait Time (seconds) to finish
                         } catch (InterruptedException e) {    //     possible error cases
                             System.out.println("job was interrupted");
                         } catch (ExecutionException e) {
@@ -81,7 +81,7 @@ public class Test {
                                 + time + "\t" + res.get(SOLVE);
 //                    System.out.println(fileInfo);
                         Controller.outputToTxt(fileInfo, outFile);
-//                    System.out.println(outFile);
+//                    System.out.println(outFile);u
                     }
                 }
             }
