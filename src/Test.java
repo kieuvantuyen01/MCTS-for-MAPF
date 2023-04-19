@@ -12,7 +12,7 @@ public class Test {
     private static final int MAX_NUM = 2;
     private static final int TIME = 3;
     private static final int SOLVE = 4;
-    public static File outFile = new File("./output/out231404.txt");
+    public static File outFile = new File("./output/out231904.txt");
     static Controller controller;
     static String inputFolderPath1 = "./input";
     public static File inFolder = new File(inputFolderPath1);
