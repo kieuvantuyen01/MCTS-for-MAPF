@@ -12,7 +12,10 @@ public class Test {
     private static final int MAX_NUM = 2;
     private static final int TIME = 3;
     private static final int SOLVE = 4;
-    public static File outFile = new File("./output/out231904.txt");
+    private static final long TIME_OUT = 900;
+    //outfile path name is: ./output/out + Datetime + .txt
+    public static File outFile = new File("./output/out" + Controller.getDateTime() + ".txt");
+    // public static File outFile = new File("./output/out231904.txt");
     static Controller controller;
     static String inputFolderPath1 = "./input";
     public static File inFolder = new File(inputFolderPath1);
@@ -51,7 +54,7 @@ public class Test {
                         executor.shutdown();            //        reject all further submissions
 
                         try {
-                            future.get(1800, TimeUnit.SECONDS);  //     wait Time (seconds) to finish
+                            future.get(TIME_OUT, TimeUnit.SECONDS);  //     wait Time (seconds) to finish
                         } catch (InterruptedException e) {    //     possible error cases
                             System.out.println("job was interrupted");
                         } catch (ExecutionException e) {
